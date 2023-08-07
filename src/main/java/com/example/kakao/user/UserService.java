@@ -1,6 +1,7 @@
 package com.example.kakao.user;
 
 import com.example.kakao._core.errors.exception.Exception400;
+import com.example.kakao._core.errors.exception.Exception401;
 import com.example.kakao._core.errors.exception.Exception500;
 import com.example.kakao._core.security.JWTProvider;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,16 @@ public class UserService {
         if (userOP.isPresent()) {
             throw new Exception400("동일한 이메일이 존재합니다 : " + email);
         }
+    }
+
+    public UserResponse.findByIdDTO findUserById(User sessionUser, int id){
+        User userPS = userJPARepository.findById(id).orElseThrow(
+                ()-> new Exception400("존재하지 않는 사용자입니다.")
+        );
+
+        if(sessionUser.getId()!= userPS.getId()){
+            throw new Exception401("인증되지 않은 사용자 입니다.");
+        }
+		return new UserResponse.findByIdDTO(userPS);
     }
 }
