@@ -23,4 +23,10 @@ public class CartRequest {
         @NotNull
         private int quantity;
     }
+
+    @Getter @Setter
+    public static class DeleteDTO {
+        @NotNull
+        private int cartId;
+    }
 }

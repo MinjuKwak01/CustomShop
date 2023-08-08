@@ -116,4 +116,42 @@ public class CartService {
 
         return new CartResponse.UpdateDTO(cartList);
     } // 더티체킹
+
+
+    @Transactional
+    public CartResponse.DeleteDTO delete(CartRequest.DeleteDTO requestDTO, User sessionUser) {
+        List<Cart> cartList = cartJPARepository.findAllByUserId(sessionUser.getId());
+
+        if(cartList.isEmpty()){
+            throw new Exception404("장바구니가 비어있습니다.");
+        }
+
+        HashSet<Integer> set = new HashSet<>();
+        for(Cart cart : cartList){
+            set.add(cart.getId());
+        }
+        if(!set.contains(requestDTO.getCartId())){
+            throw new Exception400("장바구니에 없는 상품은 삭제할 수 없습니다.");
+        }
+
+        for (Cart cart : cartList) {
+            if (requestDTO.getCartId() == cart.getId()) {
+                cartJPARepository.deleteById(requestDTO.getCartId());
+                break;  // 삭제 후 반복문 종료
+            }
+        }
+        cartList.removeIf(cart -> cart.getId() == requestDTO.getCartId());
+
+
+        return new CartResponse.DeleteDTO(cartList);
+    }
+
+
+
+
+
+
+
+
+
 }
