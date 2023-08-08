@@ -38,7 +38,7 @@ public class UserRestController {
         return ResponseEntity.ok().header(JWTProvider.HEADER, jwt).body(ApiUtils.success(null));
     }
 
-    @GetMapping("users/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<?> findById(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable int id){
         UserResponse.findByIdDTO responseDTO = userService.findUserById(userDetails.getUser(), id);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
