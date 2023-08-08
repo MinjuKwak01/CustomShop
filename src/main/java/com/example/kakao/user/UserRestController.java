@@ -48,7 +48,6 @@ public class UserRestController {
     @PutMapping("/users/edit")
     public ResponseEntity<?> editUsername(@RequestBody @Valid UserRequest.EditUsernameDTO requestDTO, Errors error,
                                           @AuthenticationPrincipal CustomUserDetails userDetails){
-        System.out.println("컨트롤러 진입");
         userService.editUsername(requestDTO, userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
