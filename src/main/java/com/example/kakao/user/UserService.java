@@ -58,4 +58,12 @@ public class UserService {
         }
 		return new UserResponse.findByIdDTO(userPS);
     }
+
+    @Transactional
+    public void editUsername(UserRequest.EditUsernameDTO requestDTO, User sessionUser){
+        User userPS = userJPARepository.findById(sessionUser.getId()).orElseThrow(
+                ()-> new Exception400("권한이 없습니다.")
+        );
+        userPS.editUsername(requestDTO.getUsername());
+    }
 }

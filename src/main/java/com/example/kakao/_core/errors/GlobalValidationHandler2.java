@@ -10,12 +10,12 @@ import org.springframework.validation.Errors;
 
 @Aspect
 @Component
-public class GlobalValidationHandler {
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
-    public void postMapping() {
+public class GlobalValidationHandler2 {
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.PutMapping)")
+    public void putMapping() {
     }
 
-    @Before("postMapping()")
+    @Before("putMapping()")
     public void validationAdvice(JoinPoint jp) {
         Object[] args = jp.getArgs();
         for (Object arg : args) {

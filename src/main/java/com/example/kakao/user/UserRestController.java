@@ -45,5 +45,13 @@ public class UserRestController {
         return ResponseEntity.ok().body(apiResult);
     }
 
+    @PutMapping("/user/edit")
+    public ResponseEntity<?> editUsername(@RequestBody @Valid UserRequest.EditUsernameDTO requestDTO, Errors error,
+                                          @AuthenticationPrincipal CustomUserDetails userDetails){
+        System.out.println("컨트롤러 진입");
+        userService.editUsername(requestDTO, userDetails.getUser());
+        return ResponseEntity.ok().body(ApiUtils.success(null));
+    }
+
     // 로그아웃 사용안함 - 프론트에서 JWT 토큰을 브라우저의 localstorage에서 삭제하면 됨.
 }
